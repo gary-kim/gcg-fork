@@ -1,3 +1,16 @@
+diff --git a/lib/github_changelog_generator/generator/entry.rb b/lib/github_changelog_generator/generator/entry.rb
+index ac85ea5..2ed260b 100644
+--- a/lib/github_changelog_generator/generator/entry.rb
++++ b/lib/github_changelog_generator/generator/entry.rb
+@@ -99,7 +99,7 @@ module GitHubChangelogGenerator
+       header += if newer_tag_name.equal?(@options[:unreleased_label])
+                   "## [#{newer_tag_name}](#{release_url})\n\n"
+                 else
+-                  "## [#{newer_tag_name}](#{release_url}) (#{time_string})\n\n"
++                  "## [#{newer_tag_name}](#{release_url}) - #{time_string}\n\n"
+                 end
+ 
+       if @options[:compare_link] && older_tag_name
 diff --git a/lib/github_changelog_generator/generator/section.rb b/lib/github_changelog_generator/generator/section.rb
 index 538b2b1..a9be683 100644
 --- a/lib/github_changelog_generator/generator/section.rb

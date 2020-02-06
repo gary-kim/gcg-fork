@@ -1,0 +1,38 @@
+kind: pipeline
+type: docker
+name: build-and-deploy
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: download-gcg
+    image: docker:git
+    commands:
+      - git clone https://github.com/github-changelog-generator/github-changelog-generator gcg
+      - (cd gcg && git checkout $(cat ../VERSION))
+  - name: apply-patch
+    image: docker:git
+    commands:
+      - (cd gcg && git apply ../fork.patch)
+  - name: build-gem
+    image: ruby:2.6.4-alpine3.9
+    commands:
+      - (cd gcg && gem build github_changelog_generator.gemspec)
+  - name: build-and-deploy-image
+    image: plugins/docker
+    settings:
+      context: gcg
+      dockerfile: Dockerfile
+      password:
+        from_secret: docker_password
+      repo: garykim/gcg-fork
+      username: garykim
+    when:
+      branch:
+        - master
+      event:
+        - push
+      repo:
+        - gary-kim/gcg-fork

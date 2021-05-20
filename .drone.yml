@@ -17,7 +17,7 @@ steps:
     commands:
       - (cd gcg && git apply ../fork.patch)
   - name: build-gem
-    image: ruby:2.6.4-alpine3.9
+    image: ruby:2-alpine
     commands:
       - (cd gcg && gem build github_changelog_generator.gemspec)
   - name: build-and-deploy-image

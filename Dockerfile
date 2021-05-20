@@ -1,7 +1,7 @@
-FROM ruby:2.6.4-alpine3.9
+FROM ruby:2-alpine
 
 LABEL maintainer="Gary Kim <gary@garykim.dev>"
-RUN apk add --no-cache git
+RUN apk add --no-cache git && apk add --no-cache --virtual .gem-installdeps build-base=0.5-r2
 
 RUN mkdir -p /app
 COPY . /app
